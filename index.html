@@ -3,419 +3,622 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0e1a">
+<meta name="theme-color" content="#080d18">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>WC 2026 ⚽</title>
+<title>WC 2026</title>
 <style>
+/* ── TOKENS ─────────────────────────────────────────────── */
 :root {
-  --bg: #0a0e1a;
-  --card: #131b2e;
-  --card2: #1c2740;
-  --gold: #d4a017;
-  --gold-light: #f0c040;
-  --red: #e63946;
-  --green: #2ec060;
-  --blue: #3a86ff;
-  --text: #f0f4ff;
-  --muted: #7a8aaa;
-  --border: #1e2d47;
-  --nav-h: 62px;
-  --header-h: 54px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --bg:       #080d18;
+  --s1:       #0f1626;   /* card surface */
+  --s2:       #172035;   /* elevated / input */
+  --s3:       #1e2b42;   /* hover / selected */
+  --gold:     #c8981f;
+  --gold-hi:  #e8b535;
+  --gold-bg:  rgba(200,152,31,.12);
+  --red:      #d94040;
+  --red-bg:   rgba(217,64,64,.12);
+  --green:    #18a05a;
+  --green-bg: rgba(24,160,90,.12);
+  --text:     #eef2ff;
+  --text2:    #7d90b0;
+  --text3:    #4d607a;
+  --border:   #1a2840;
+  --nav-h:    58px;
+  --hdr-h:    52px;
+  --safe-b:   env(safe-area-inset-bottom, 0px);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; background: var(--bg); }
-body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-/* HEADER */
-.header {
+/* ── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+/* Flat dark surface — no gradient. Gold stripe at bottom. */
+.hdr {
   position: fixed; top: 0; left: 0; right: 0;
-  height: var(--header-h);
-  background: linear-gradient(135deg, #0d1525 0%, #131b2e 100%);
+  height: var(--hdr-h);
+  background: var(--s1);
   border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; padding: 0 16px; z-index: 100;
+  box-shadow: 0 1px 0 rgba(200,152,31,.18);
+  display: flex; align-items: center;
+  padding: 0 16px; z-index: 100; gap: 10px;
 }
-.header-icon { font-size: 24px; margin-right: 10px; }
-.header-text h1 { font-size: 16px; font-weight: 800; letter-spacing: 0.3px; color: var(--text); }
-.header-text p  { font-size: 10px; color: var(--gold); font-weight: 600; letter-spacing: 0.5px; margin-top: 1px; }
-.header-live {
-  margin-left: auto; background: rgba(230,57,70,0.2);
-  border: 1px solid var(--red); border-radius: 10px;
-  padding: 3px 9px; font-size: 10px; font-weight: 800; color: var(--red);
-  animation: pulse 1.5s infinite;
+.hdr-logo { font-size: 22px; line-height: 1; flex-shrink: 0; }
+.hdr-title {
+  font-size: 15px; font-weight: 700;
+  letter-spacing: -.2px; color: var(--text);
 }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.hdr-sub {
+  font-size: 10px; font-weight: 500;
+  color: var(--text2); letter-spacing: .4px;
+  margin-top: 1px;
+}
+.hdr-live {
+  margin-left: auto; display: none;
+  align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; color: var(--red);
+  letter-spacing: .5px;
+}
+.hdr-live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); animation: blink 1.2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* CONTENT */
+/* ── CONTENT ─────────────────────────────────────────────── */
 .content {
-  padding-top: calc(var(--header-h) + 6px);
-  padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 8px);
+  padding-top: calc(var(--hdr-h) + 4px);
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 8px);
   min-height: 100vh;
 }
 
-/* BOTTOM NAV */
-.bottom-nav {
+/* ── BOTTOM NAV ──────────────────────────────────────────── */
+/* SVG icons, no emoji. Indicator is a 2px line, not a dot. */
+.nav {
   position: fixed; bottom: 0; left: 0; right: 0;
-  height: calc(var(--nav-h) + var(--safe-bottom));
-  background: var(--card);
+  height: calc(var(--nav-h) + var(--safe-b));
+  background: var(--s1);
   border-top: 1px solid var(--border);
-  display: flex; align-items: flex-start; padding-top: 6px; z-index: 100;
+  display: flex; z-index: 100;
 }
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  gap: 3px; cursor: pointer; color: var(--muted); transition: color 0.2s;
-  padding: 4px 0; user-select: none;
-}
-.nav-item.active { color: var(--gold); }
-.nav-item .nav-icon { font-size: 21px; line-height: 1; }
-.nav-item .nav-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
-.nav-dot {
-  width: 4px; height: 4px; border-radius: 50%; background: var(--gold);
-  display: none; margin-top: -2px;
-}
-.nav-item.active .nav-dot { display: block; }
-
-/* TAB PANELS */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* CHIPS */
-.chips-wrap { overflow-x: auto; scrollbar-width: none; padding: 8px 12px; display: flex; gap: 7px; }
-.chips-wrap::-webkit-scrollbar { display: none; }
-.chip {
-  flex-shrink: 0; padding: 6px 14px; border-radius: 20px;
-  border: 1px solid var(--border); background: var(--card);
-  font-size: 12px; font-weight: 600; cursor: pointer;
-  white-space: nowrap; color: var(--muted); transition: all 0.15s;
-}
-.chip.active { background: var(--gold); border-color: var(--gold); color: #000; }
-.chip:active { transform: scale(0.95); }
-
-/* SECTION LABEL */
-.section-label {
-  font-size: 10px; font-weight: 800; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 1.2px;
-  padding: 10px 12px 4px;
-}
-
-/* MATCH CARD */
-.match-card {
-  background: var(--card); border-radius: 14px;
-  margin: 0 10px 10px; border: 1px solid var(--border);
-  overflow: hidden; cursor: pointer;
-}
-.match-card:active { transform: scale(0.98); transition: transform 0.1s; }
-.match-card-header {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 14px 8px;
-  border-bottom: 1px solid var(--border);
-}
-.match-round-badge {
-  font-size: 10px; font-weight: 800; color: var(--gold);
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-.match-time-str { font-size: 10px; color: var(--muted); margin-left: auto; }
-.match-venue-str { font-size: 10px; color: var(--muted); }
-
-.match-body { padding: 12px 14px; }
-.match-teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; }
-.team-col { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.team-flag-big { font-size: 30px; line-height: 1; }
-.team-name-sm { font-size: 11px; font-weight: 700; text-align: center; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.score-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.score-display { display: flex; align-items: center; gap: 6px; }
-.score-num { font-size: 28px; font-weight: 900; min-width: 26px; text-align: center; line-height: 1; }
-.score-num.live { color: var(--red); }
-.score-sep { font-size: 20px; color: var(--muted); font-weight: 300; line-height: 1; }
-.score-vs { font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: 1px; }
-.status-tag {
-  display: inline-flex; align-items: center; gap: 3px;
-  font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 8px;
-  text-transform: uppercase; letter-spacing: 0.4px;
-}
-.status-tag.upcoming { background: rgba(212,160,23,0.15); color: var(--gold); }
-.status-tag.live     { background: rgba(230,57,70,0.2); color: var(--red); animation: pulse 1.5s infinite; }
-.status-tag.finished { background: rgba(46,192,96,0.15); color: var(--green); }
-
-.match-footer {
-  padding: 8px 14px; border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.match-pred-count { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
-.btn-predict {
-  font-size: 11px; font-weight: 800; color: var(--gold);
-  background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.3);
-  border-radius: 12px; padding: 5px 12px; cursor: pointer;
-}
-.btn-predict:active { transform: scale(0.95); }
-
-/* STANDINGS */
-.group-grid {
-  display: grid; grid-template-columns: repeat(6, 1fr);
-  gap: 6px; padding: 8px 12px;
-}
-.group-tile {
-  aspect-ratio: 1; border-radius: 9px; border: 1px solid var(--border);
-  background: var(--card); font-size: 13px; font-weight: 800;
-  cursor: pointer; color: var(--muted); display: flex;
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; color: var(--text3);
+  transition: color .15s; padding-bottom: var(--safe-b);
+  position: relative;
 }
-.group-tile.active { background: var(--gold); border-color: var(--gold); color: #000; }
-.group-tile:active { transform: scale(0.92); }
+.nav-btn.active { color: var(--gold); }
+.nav-btn.active::before {
+  content: ''; position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 2px;
+  background: var(--gold); border-radius: 0 0 2px 2px;
+}
+.nav-btn svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.nav-lbl { font-size: 10px; font-weight: 600; letter-spacing: .3px; }
 
-.standings-wrap { background: var(--card); border-radius: 14px; margin: 0 10px 10px; border: 1px solid var(--border); overflow: hidden; }
-.standings-title { padding: 12px 14px 8px; font-size: 13px; font-weight: 800; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
-.standings-title span { color: var(--gold); }
+/* ── TABS ────────────────────────────────────────────────── */
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* ── CHIPS (round filter pills) ─────────────────────────── */
+.chips {
+  display: flex; gap: 6px; overflow-x: auto;
+  padding: 10px 16px 4px; scrollbar-width: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex-shrink: 0;
+  padding: 6px 14px; border-radius: 4px;
+  border: 1px solid var(--border); background: transparent;
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  cursor: pointer; white-space: nowrap; transition: all .12s;
+}
+.chip.active {
+  background: var(--gold-bg);
+  border-color: rgba(200,152,31,.4);
+  color: var(--gold-hi);
+}
+
+/* ── SECTION LABEL ───────────────────────────────────────── */
+.lbl {
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 14px 16px 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.lbl::before {
+  content: ''; display: block;
+  width: 3px; height: 12px; background: var(--gold);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* ── MATCH CARD ──────────────────────────────────────────── */
+/* Single flowing card, no sub-bands. */
+.mc {
+  margin: 0 12px 8px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.mc:active { opacity: .85; }
+.mc.is-live { border-left: 3px solid var(--red); }
+.mc.is-finished { border-left: 3px solid var(--green); }
+
+/* top meta row */
+.mc-meta {
+  display: flex; align-items: center;
+  padding: 8px 12px 0;
+  gap: 8px;
+}
+.mc-group {
+  font-size: 10px; font-weight: 700; color: var(--gold);
+  text-transform: uppercase; letter-spacing: .6px;
+}
+.mc-status { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; }
+.mc-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.mc-status.upcoming .mc-status-dot { background: var(--text3); }
+.mc-status.upcoming { color: var(--text2); }
+.mc-status.live .mc-status-dot { background: var(--red); animation: blink 1.2s infinite; }
+.mc-status.live { color: var(--red); }
+.mc-status.finished .mc-status-dot { background: var(--green); }
+.mc-status.finished { color: var(--green); }
+.mc-time { margin-left: auto; font-size: 10px; color: var(--text2); font-variant-numeric: tabular-nums; }
+
+/* teams + score row */
+.mc-body { padding: 10px 12px 10px; }
+.mc-row {
+  display: grid;
+  grid-template-columns: 1fr 72px 1fr;
+  align-items: center; gap: 8px;
+}
+.mc-team {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+}
+.mc-team:last-child { /* away — mirror */ }
+.mc-flag { font-size: 28px; line-height: 1; }
+.mc-name {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  text-align: center; line-height: 1.2;
+  max-width: 76px;
+}
+.mc-score-box {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.mc-score {
+  font-size: 30px; font-weight: 800; line-height: 1;
+  letter-spacing: -1px; color: var(--text);
+  font-variant-numeric: tabular-nums;
+  display: flex; align-items: center; gap: 4px;
+}
+.mc-score-sep { font-size: 20px; color: var(--text3); font-weight: 300; }
+.mc-vs { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 1px; }
+
+/* bottom footer */
+.mc-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 12px 9px;
+  border-top: 1px solid var(--border);
+}
+.mc-preds { font-size: 11px; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+.mc-preds-icon { font-size: 12px; }
+.btn-pred {
+  font-size: 12px; font-weight: 700; color: var(--gold);
+  background: var(--gold-bg); border: 1px solid rgba(200,152,31,.25);
+  border-radius: 4px; padding: 5px 12px; cursor: pointer;
+  transition: background .12s;
+}
+.btn-pred:active { background: rgba(200,152,31,.22); }
+
+/* ── STANDINGS ───────────────────────────────────────────── */
+.grp-grid {
+  display: grid; grid-template-columns: repeat(6,1fr);
+  gap: 6px; padding: 8px 16px;
+}
+.grp-btn {
+  height: 36px; border-radius: 4px;
+  border: 1px solid var(--border); background: transparent;
+  font-size: 13px; font-weight: 700; color: var(--text2);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .12s;
+}
+.grp-btn.active {
+  background: var(--gold-bg); border-color: rgba(200,152,31,.4); color: var(--gold-hi);
+}
+.grp-btn:active { transform: scale(.93); }
+
+.std-wrap {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 8px; margin: 4px 12px 8px; overflow: hidden;
+}
+.std-head {
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: baseline; gap: 6px;
+}
+.std-head-group { font-size: 13px; font-weight: 800; color: var(--gold); }
+.std-head-flags { font-size: 16px; letter-spacing: 2px; }
+
 table.std { width: 100%; border-collapse: collapse; }
-table.std th { font-size: 9px; font-weight: 800; color: var(--muted); text-align: center; padding: 6px 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-table.std th:first-child { text-align: left; padding-left: 14px; min-width: 120px; }
-table.std td { font-size: 12px; text-align: center; padding: 10px 6px; border-top: 1px solid var(--border); }
-table.std td:first-child { text-align: left; padding-left: 0; }
-table.std tr:nth-child(-n+2) .pos-border { border-left: 3px solid var(--green); padding-left: 11px; }
-table.std tr:nth-child(3) .pos-border { border-left: 3px solid var(--gold); padding-left: 11px; }
-table.std tr:nth-child(4) .pos-border { border-left: 3px solid var(--border); padding-left: 11px; }
-.team-std-cell { display: flex; align-items: center; gap: 7px; }
-.team-std-flag { font-size: 17px; }
-.team-std-name { font-size: 12px; font-weight: 700; }
-.pts-bold { font-weight: 900; color: var(--gold); font-size: 14px; }
-.form-dots { display: flex; gap: 3px; padding: 8px 12px 4px; }
-.form-dot { width: 7px; height: 7px; border-radius: 50%; }
-.form-dot.w { background: var(--green); }
-.form-dot.d { background: var(--gold); }
-.form-dot.l { background: var(--red); }
-.form-dot.x { background: var(--border); }
-
-/* PREDICTION TAB */
-.pred-tab-wrap { padding: 0 10px; }
-.card-block { background: var(--card); border-radius: 14px; padding: 14px; margin-bottom: 12px; border: 1px solid var(--border); }
-.card-block h3 { font-size: 14px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.card-block p { font-size: 12px; color: var(--muted); line-height: 1.6; }
-
-.form-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; display: block; }
-.form-row { margin-bottom: 14px; }
-.inp {
-  width: 100%; background: var(--card2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 13px; color: var(--text); font-size: 14px;
-  outline: none; -webkit-appearance: none; appearance: none;
+table.std th {
+  font-size: 9px; font-weight: 700; color: var(--text3);
+  text-align: center; padding: 7px 6px 5px;
+  text-transform: uppercase; letter-spacing: .5px;
 }
-.inp:focus { border-color: var(--gold); background: var(--card2); }
+table.std th:first-child { text-align: left; padding-left: 14px; }
+table.std td {
+  font-size: 12px; text-align: center;
+  padding: 10px 6px; border-top: 1px solid var(--border);
+  color: var(--text2);
+}
+table.std td:first-child { text-align: left; padding-left: 0; }
+table.std td:last-child { color: var(--text); font-weight: 800; font-size: 13px; }
+
+.std-pos { display: flex; align-items: center; }
+.std-bar {
+  width: 3px; align-self: stretch; flex-shrink: 0;
+  margin-right: 10px; border-radius: 0;
+}
+.std-bar.q  { background: var(--green); }
+.std-bar.b3 { background: var(--gold); }
+.std-bar.out{ background: var(--border); }
+.std-team { display: flex; align-items: center; gap: 7px; }
+.std-flag { font-size: 16px; }
+.std-name { font-size: 12px; font-weight: 600; color: var(--text); }
+
+.std-legend {
+  display: flex; gap: 12px; padding: 8px 16px 12px; flex-wrap: wrap;
+}
+.std-leg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text2); }
+.std-leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── PREDICTION TAB ──────────────────────────────────────── */
+.pred-wrap { padding: 8px 12px 0; }
+
+.info-card {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px; margin-bottom: 12px;
+}
+.info-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.info-card p  { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+.field { margin-bottom: 14px; }
+.field-label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: var(--text2); text-transform: uppercase;
+  letter-spacing: .5px; margin-bottom: 6px;
+}
+.inp {
+  width: 100%; background: var(--s2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 13px 14px; color: var(--text); font-size: 14px;
+  outline: none; -webkit-appearance: none; appearance: none;
+  transition: border-color .12s;
+}
+.inp:focus { border-color: rgba(200,152,31,.5); }
 select.inp { cursor: pointer; }
 
-.score-row { display: grid; grid-template-columns: 1fr 32px 1fr; align-items: center; gap: 8px; }
-.score-inp {
-  width: 100%; background: var(--card2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 8px; color: var(--text);
-  font-size: 24px; font-weight: 900; text-align: center;
-  outline: none; -webkit-appearance: none; appearance: none;
-  -moz-appearance: textfield;
+.match-preview {
+  background: var(--s2); border-radius: 6px;
+  padding: 10px 14px; margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.score-inp:focus { border-color: var(--gold); }
+.mp-team { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
+.mp-team.away { flex-direction: row-reverse; }
+.mp-vs { font-size: 11px; color: var(--text2); font-weight: 700; }
+
+.score-row { display: grid; grid-template-columns: 1fr 28px 1fr; align-items: center; gap: 8px; }
+.score-inp {
+  width: 100%; background: var(--s2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 14px 8px; color: var(--text);
+  font-size: 26px; font-weight: 800; text-align: center;
+  outline: none; -webkit-appearance: none; -moz-appearance: textfield; appearance: none;
+  font-variant-numeric: tabular-nums; transition: border-color .12s;
+}
+.score-inp:focus { border-color: rgba(200,152,31,.5); }
 .score-inp::-webkit-inner-spin-button,
 .score-inp::-webkit-outer-spin-button { -webkit-appearance: none; }
-.score-divider { text-align: center; font-size: 16px; color: var(--muted); font-weight: 700; }
-.match-preview { background: var(--card2); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
-.match-preview .flag-name { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
-.match-preview .vs-sm { font-size: 11px; color: var(--muted); font-weight: 700; }
-.match-preview .flag-name:last-child { flex-direction: row-reverse; }
+.score-div { text-align: center; font-size: 18px; color: var(--text3); font-weight: 300; }
 
 .btn-submit {
-  width: 100%; background: var(--gold); color: #0a0e1a;
-  border: none; border-radius: 12px; padding: 15px;
-  font-size: 15px; font-weight: 900; cursor: pointer; letter-spacing: 0.3px;
+  width: 100%; background: var(--gold); color: #050a10;
+  border: none; border-radius: 6px; padding: 15px;
+  font-size: 14px; font-weight: 800; cursor: pointer;
+  letter-spacing: .2px; transition: background .12s;
 }
-.btn-submit:active { transform: scale(0.97); background: var(--gold-light); }
+.btn-submit:active { background: var(--gold-hi); }
 
-/* Prediction list items */
-.pred-item {
+/* prediction items */
+.pi {
   display: flex; align-items: center; gap: 10px;
-  background: var(--card); border-radius: 12px; padding: 11px 13px;
-  margin-bottom: 8px; border: 1px solid var(--border);
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 8px; padding: 11px 13px; margin-bottom: 8px;
 }
-.pred-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--card2); display: flex; align-items: center;
-  justify-content: center; font-size: 15px; font-weight: 900;
-  color: var(--gold); flex-shrink: 0; text-transform: uppercase;
+.pi-av {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--s2); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: var(--gold); flex-shrink: 0;
 }
-.pred-info { flex: 1; min-width: 0; }
-.pred-name { font-size: 13px; font-weight: 800; }
-.pred-match-name { font-size: 11px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pred-result { text-align: right; }
-.pred-score-big { font-size: 18px; font-weight: 900; color: var(--gold); }
-.pred-verdict { font-size: 10px; font-weight: 700; margin-top: 2px; }
-.pred-verdict.correct { color: var(--green); }
-.pred-verdict.partial  { color: var(--gold); }
-.pred-verdict.wrong    { color: var(--red); }
+.pi-info { flex: 1; min-width: 0; }
+.pi-name { font-size: 13px; font-weight: 700; }
+.pi-match { font-size: 11px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pi-right { text-align: right; flex-shrink: 0; }
+.pi-score { font-size: 18px; font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; }
+.pi-verdict { font-size: 10px; font-weight: 700; margin-top: 2px; }
+.pi-verdict.correct { color: var(--green); }
+.pi-verdict.partial  { color: var(--gold); }
+.pi-verdict.wrong    { color: var(--red); }
+.pi-verdict.pending  { color: var(--text3); }
 
-/* MODAL */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,10,0.75); z-index: 200; backdrop-filter: blur(3px); display: flex; align-items: flex-end; padding: 0; }
+/* ── MODAL ───────────────────────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.7);
+  z-index: 200; backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end;
+}
 .overlay.hidden { display: none; }
-.modal-sheet {
-  background: var(--card); border-radius: 22px 22px 0 0;
-  width: 100%; max-height: 85vh; overflow-y: auto;
-  padding: 0 0 calc(20px + var(--safe-bottom)) 0;
+.sheet {
+  background: var(--s1); border-radius: 14px 14px 0 0;
+  width: 100%; max-height: 88vh; overflow-y: auto;
+  padding-bottom: calc(16px + var(--safe-b));
 }
-.modal-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--border); margin: 12px auto 14px; }
-.modal-header { display: flex; align-items: center; padding: 0 16px 12px; border-bottom: 1px solid var(--border); }
-.modal-title { font-size: 15px; font-weight: 800; flex: 1; }
-.modal-close { background: var(--card2); border: none; color: var(--muted); width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.modal-body { padding: 14px 16px; }
-.modal-match-big { text-align: center; padding: 14px 0; }
-.modal-teams { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
-.modal-flag { font-size: 36px; }
-.modal-score { font-size: 32px; font-weight: 900; }
-.modal-sep { font-size: 22px; color: var(--muted); }
-.modal-names { font-size: 13px; color: var(--muted); }
+.sheet-handle {
+  width: 32px; height: 3px; border-radius: 2px;
+  background: var(--border); margin: 12px auto 10px;
+}
+.sheet-hdr {
+  display: flex; align-items: center;
+  padding: 0 16px 12px; border-bottom: 1px solid var(--border);
+}
+.sheet-title { font-size: 15px; font-weight: 800; flex: 1; }
+.sheet-close {
+  background: var(--s2); border: none; color: var(--text2);
+  width: 28px; height: 28px; border-radius: 50%;
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.sheet-body { padding: 14px 16px; }
 
-/* TOAST */
+.modal-score-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; padding: 16px 0 8px;
+}
+.modal-flag { font-size: 36px; }
+.modal-sc { font-size: 36px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.modal-sc-sep { font-size: 24px; color: var(--text3); }
+.modal-teams-lbl { text-align: center; font-size: 13px; color: var(--text2); margin-bottom: 4px; }
+.modal-meta { text-align: center; font-size: 11px; color: var(--text3); padding-bottom: 12px; }
+
+/* ── LIVE BANNER ─────────────────────────────────────────── */
+/* Full-width bar that appears only when there are live matches */
+.live-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(217,64,64,.1); border-bottom: 1px solid rgba(217,64,64,.2);
+  padding: 7px 16px;
+}
+.live-banner-left { display: flex; align-items: center; gap: 8px; }
+.live-banner-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); animation: blink 1s ease infinite; flex-shrink: 0;
+}
+.live-banner-text { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: .3px; }
+.live-banner-count {
+  font-size: 11px; color: rgba(217,64,64,.7); margin-left: 2px;
+}
+.live-banner-refresh {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: var(--text3); cursor: pointer;
+  padding: 4px 8px; border-radius: 4px; transition: color .12s;
+}
+.live-banner-refresh:active { color: var(--text2); }
+.live-banner-refresh svg {
+  width: 12px; height: 12px; stroke: currentColor;
+  stroke-width: 2; fill: none;
+}
+.live-banner-refresh.spinning svg { animation: spin .6s linear infinite; }
+
+/* last updated stamp — quiet */
+.last-updated {
+  font-size: 10px; color: var(--text3);
+  text-align: center; padding: 4px 16px 2px;
+  letter-spacing: .2px;
+}
+
+/* score flash on change */
+@keyframes score-flash {
+  0%   { background: rgba(217,64,64,.35); }
+  100% { background: transparent; }
+}
+.mc-score.changed { animation: score-flash .9s ease forwards; border-radius: 4px; padding: 2px 4px; }
+
+/* ── TOAST ───────────────────────────────────────────────── */
 .toast {
-  position: fixed; bottom: calc(var(--nav-h) + var(--safe-bottom) + 16px);
+  position: fixed;
+  bottom: calc(var(--nav-h) + var(--safe-b) + 14px);
   left: 50%; transform: translateX(-50%);
-  background: var(--green); color: #fff;
-  padding: 10px 22px; border-radius: 22px;
+  background: #1a2f1a; color: var(--green);
+  border: 1px solid rgba(24,160,90,.3);
+  padding: 9px 18px; border-radius: 6px;
   font-size: 13px; font-weight: 700; z-index: 400;
-  opacity: 0; transition: opacity 0.25s; pointer-events: none;
-  white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  opacity: 0; transition: opacity .2s; pointer-events: none;
+  white-space: nowrap;
 }
 .toast.show { opacity: 1; }
-.toast.error-toast { background: var(--red); }
+.toast.err { background: #2a1515; color: var(--red); border-color: rgba(217,64,64,.3); }
 
-/* EMPTY */
-.empty-state { text-align: center; padding: 50px 20px; color: var(--muted); }
-.empty-state .e-icon { font-size: 44px; margin-bottom: 12px; }
-.empty-state p { font-size: 13px; line-height: 1.6; }
+/* ── EMPTY ───────────────────────────────────────────────── */
+.empty { text-align: center; padding: 48px 20px; color: var(--text2); }
+.empty-ico { font-size: 36px; margin-bottom: 10px; opacity: .6; }
+.empty p { font-size: 13px; line-height: 1.6; }
 
-/* Loading */
-.loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px; gap: 14px; }
-.spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+/* ── LOADING ─────────────────────────────────────────────── */
+.loading {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 56px 20px; gap: 14px;
+}
+.spin {
+  width: 28px; height: 28px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%; animation: spin .7s linear infinite;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { font-size: 13px; color: var(--muted); }
+.loading-t { font-size: 13px; color: var(--text2); }
 
-/* Info chips */
-.info-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 8px; }
-.info-chip { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 10px; }
-.info-chip.advance { background: rgba(46,192,96,0.15); color: var(--green); }
-.info-chip.third   { background: rgba(212,160,23,0.15); color: var(--gold); }
-.info-chip.out     { background: rgba(122,138,170,0.15); color: var(--muted); }
+/* ── UTILITIES ───────────────────────────────────────────── */
+.form-section {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px; margin-bottom: 12px;
+}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <div class="header-icon">🏆</div>
-  <div class="header-text">
-    <h1>FIFA World Cup 2026</h1>
-    <p>USA · CANADA · MEXICO</p>
+<header class="hdr">
+  <div class="hdr-logo">🏆</div>
+  <div>
+    <div class="hdr-title">World Cup 2026</div>
+    <div class="hdr-sub">USA · CANADA · MEXICO</div>
   </div>
-  <div class="header-live" id="liveIndicator" style="display:none">● LIVE</div>
+  <div class="hdr-live" id="liveIndicator">
+    <div class="hdr-live-dot"></div>
+    LIVE
+  </div>
+</header>
+
+<!-- LIVE BANNER (hidden by default) -->
+<div id="liveBanner" style="position:fixed;top:var(--hdr-h);left:0;right:0;z-index:99;display:none">
+  <div class="live-banner">
+    <div class="live-banner-left">
+      <div class="live-banner-dot"></div>
+      <span class="live-banner-text">ĐANG DIỄN RA</span>
+      <span class="live-banner-count" id="liveCount"></span>
+    </div>
+    <div class="live-banner-refresh" id="refreshBtn" onclick="manualRefresh()">
+      <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+      Làm mới
+    </div>
+  </div>
+  <div class="last-updated" id="lastUpdated"></div>
 </div>
 
 <!-- CONTENT -->
-<div class="content">
+<main class="content">
 
-  <!-- TAB: LỊCH THI ĐẤU -->
-  <div class="tab-panel active" id="tab-schedule">
-    <div class="chips-wrap" id="roundChips"></div>
+  <!-- TAB: LỊCH -->
+  <div class="tab active" id="tab-schedule">
+    <div class="chips" id="roundChips"></div>
     <div id="matchList"></div>
   </div>
 
   <!-- TAB: BXH -->
-  <div class="tab-panel" id="tab-standings">
-    <div class="section-label">Chọn bảng</div>
-    <div class="group-grid" id="groupGrid"></div>
+  <div class="tab" id="tab-standings">
+    <div class="lbl">Chọn bảng</div>
+    <div class="grp-grid" id="groupGrid"></div>
     <div id="standingsContent"></div>
-    <div class="info-row">
-      <div class="info-chip advance">■ Vào vòng 1/16</div>
-      <div class="info-chip third">■ Best 3rd</div>
-      <div class="info-chip out">■ Loại</div>
+    <div class="std-legend">
+      <div class="std-leg-item"><div class="std-leg-dot" style="background:var(--green)"></div>Vào vòng 1/16</div>
+      <div class="std-leg-item"><div class="std-leg-dot" style="background:var(--gold)"></div>Best 3rd</div>
+      <div class="std-leg-item"><div class="std-leg-dot" style="background:var(--border)"></div>Loại</div>
     </div>
   </div>
 
   <!-- TAB: DỰ ĐOÁN -->
-  <div class="tab-panel" id="tab-predict">
-    <div class="pred-tab-wrap">
-      <div class="card-block" style="margin-top:8px">
+  <div class="tab" id="tab-predict">
+    <div class="pred-wrap">
+      <div class="info-card" style="margin-top:8px">
         <h3>🎯 Dự đoán tỉ số</h3>
-        <p>Nhập tên & tỉ số trước khi trận bắt đầu. Đúng tỉ số chính xác = 3 điểm, đúng kết quả W/D/L = 1 điểm.</p>
+        <p>Nhập tên & tỉ số trước khi trận bắt đầu.<br>Đúng tỉ số = 3 điểm · Đúng kết quả = 1 điểm</p>
       </div>
-
-      <div class="card-block">
-        <div class="form-row">
-          <label class="form-label">Tên của bạn</label>
+      <div class="form-section">
+        <div class="field">
+          <label class="field-label">Tên của bạn</label>
           <input class="inp" id="predName" type="text" placeholder="VD: Minh Tuấn" maxlength="30" autocomplete="off">
         </div>
-        <div class="form-row">
-          <label class="form-label">Chọn trận</label>
+        <div class="field">
+          <label class="field-label">Chọn trận</label>
           <select class="inp" id="predMatch" onchange="onMatchSelect()">
-            <option value="">-- Chọn trận đấu --</option>
+            <option value="">— chọn trận đấu —</option>
           </select>
         </div>
-        <div id="matchPreviewBox" style="display:none" class="match-preview">
-          <div class="flag-name"><span id="prevHomeFlag"></span><span id="prevHomeName"></span></div>
-          <span class="vs-sm">VS</span>
-          <div class="flag-name"><span id="prevAwayName"></span><span id="prevAwayFlag"></span></div>
+        <div id="matchPreviewBox" style="display:none">
+          <div class="match-preview">
+            <div class="mp-team"><span id="prevHomeFlag"></span><span id="prevHomeName"></span></div>
+            <span class="mp-vs">VS</span>
+            <div class="mp-team away"><span id="prevAwayFlag"></span><span id="prevAwayName"></span></div>
+          </div>
         </div>
-        <div class="form-row">
-          <label class="form-label">Tỉ số dự đoán</label>
+        <div class="field">
+          <label class="field-label">Tỉ số dự đoán</label>
           <div class="score-row">
             <input class="score-inp" id="predHome" type="number" min="0" max="20" placeholder="0">
-            <div class="score-divider">–</div>
+            <div class="score-div">–</div>
             <input class="score-inp" id="predAway" type="number" min="0" max="20" placeholder="0">
           </div>
         </div>
-        <button class="btn-submit" onclick="submitPrediction()">⚡ Lưu dự đoán</button>
+        <button class="btn-submit" onclick="submitPrediction()">Lưu dự đoán</button>
       </div>
-
-      <div class="section-label" style="padding-left:0">Dự đoán mọi người</div>
+      <div class="lbl" style="padding-left:0">Dự đoán của anh em</div>
       <div id="allPredictions"></div>
     </div>
   </div>
 
-</div>
+</main>
 
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <div class="nav-item active" onclick="switchTab('schedule', this)">
-    <div class="nav-icon">📅</div>
-    <div class="nav-label">Lịch</div>
-    <div class="nav-dot"></div>
-  </div>
-  <div class="nav-item" onclick="switchTab('standings', this)">
-    <div class="nav-icon">📊</div>
-    <div class="nav-label">BXH</div>
-    <div class="nav-dot"></div>
-  </div>
-  <div class="nav-item" onclick="switchTab('predict', this)">
-    <div class="nav-icon">🎯</div>
-    <div class="nav-label">Dự đoán</div>
-    <div class="nav-dot"></div>
-  </div>
+<nav class="nav">
+  <button class="nav-btn active" onclick="switchTab('schedule',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span class="nav-lbl">Lịch</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('standings',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+    <span class="nav-lbl">BXH</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('predict',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <span class="nav-lbl">Dự đoán</span>
+  </button>
 </nav>
 
-<!-- MATCH DETAIL MODAL -->
+<!-- MATCH MODAL -->
 <div class="overlay hidden" id="matchModal" onclick="closeModal(event)">
-  <div class="modal-sheet" id="modalSheet">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle">Chi tiết trận đấu</div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <div class="sheet-title" id="modalTitle"></div>
+      <button class="sheet-close" onclick="closeModalDirect()">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="modal-match-big">
-        <div class="modal-teams">
-          <span class="modal-flag" id="mHomeFlag"></span>
-          <span class="modal-score" id="mHomeScore"></span>
-          <span class="modal-sep">–</span>
-          <span class="modal-score" id="mAwayScore"></span>
-          <span class="modal-flag" id="mAwayFlag"></span>
-        </div>
-        <div class="modal-names" id="mNames"></div>
-        <div style="margin-top:8px" id="mStatusTag"></div>
-        <div style="font-size:11px;color:var(--muted);margin-top:6px" id="mVenue"></div>
+    <div class="sheet-body">
+      <div class="modal-score-row">
+        <span class="modal-flag" id="mHomeFlag"></span>
+        <span class="modal-sc" id="mHomeScore"></span>
+        <span class="modal-sc-sep" id="mScSep">–</span>
+        <span class="modal-sc" id="mAwayScore"></span>
+        <span class="modal-flag" id="mAwayFlag"></span>
       </div>
-      <div class="section-label" style="padding-left:0;margin-top:4px">Dự đoán của anh em</div>
+      <div class="modal-teams-lbl" id="mNames"></div>
+      <div class="modal-meta" id="mMeta"></div>
+      <div class="lbl" style="padding-left:0;padding-top:4px">Dự đoán của anh em</div>
       <div id="modalPredictions"></div>
     </div>
   </div>
@@ -425,6 +628,7 @@ select.inp { cursor: pointer; }
 <div class="toast" id="toast"></div>
 
 <script>
+/* ── CONFIG ─────────────────────────────────────────────── */
 const CONFIG = {
   USE_SAMPLE_DATA: false,
   MATCHES_CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRT30jgE_-36WxLhOYpo4pJgPfxZlUmC9lP8h10V9ETAvD34lGqeHJcHZbi1bsiTWPxHB5t4M5WVWkC/pub?gid=0&single=true&output=csv',
@@ -432,55 +636,32 @@ const CONFIG = {
   PREDICTIONS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxhB9jeTysnn1ykgOIGWdJoIRCC6bd-njXz_j4szizH5Xt1gIhT-nIQGeVEeN9Q7aY/exec',
 };
 
+/* ── TEAMS ──────────────────────────────────────────────── */
 const TEAMS = {
-  'Mexico':              { flag: '🇲🇽' },
-  'Nam Phi':             { flag: '🇿🇦' },
-  'Hàn Quốc':           { flag: '🇰🇷' },
-  'CH Séc':              { flag: '🇨🇿' },
-  'Canada':              { flag: '🇨🇦' },
-  'Bosnia & Herzegovina':{ flag: '🇧🇦' },
-  'Qatar':               { flag: '🇶🇦' },
-  'Thụy Sĩ':            { flag: '🇨🇭' },
-  'Brazil':              { flag: '🇧🇷' },
-  'Morocco':             { flag: '🇲🇦' },
-  'Haiti':               { flag: '🇭🇹' },
-  'Scotland':            { flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
-  'Mỹ':                  { flag: '🇺🇸' },
-  'Paraguay':            { flag: '🇵🇾' },
-  'Australia':           { flag: '🇦🇺' },
-  'Thổ Nhĩ Kỳ':         { flag: '🇹🇷' },
-  'Đức':                 { flag: '🇩🇪' },
-  'Curacao':             { flag: '🇨🇼' },
-  'Bờ Biển Ngà':         { flag: '🇨🇮' },
-  'Ecuador':             { flag: '🇪🇨' },
-  'Hà Lan':              { flag: '🇳🇱' },
-  'Nhật Bản':            { flag: '🇯🇵' },
-  'Thụy Điển':           { flag: '🇸🇪' },
-  'Tunisia':             { flag: '🇹🇳' },
-  'Tây Ban Nha':         { flag: '🇪🇸' },
-  'Cape Verde':          { flag: '🇨🇻' },
-  'Saudi Arabia':        { flag: '🇸🇦' },
-  'Uruguay':             { flag: '🇺🇾' },
-  'Bỉ':                  { flag: '🇧🇪' },
-  'Ai Cập':              { flag: '🇪🇬' },
-  'Iran':                { flag: '🇮🇷' },
-  'New Zealand':         { flag: '🇳🇿' },
-  'Pháp':                { flag: '🇫🇷' },
-  'Senegal':             { flag: '🇸🇳' },
-  'Iraq':                { flag: '🇮🇶' },
-  'Na Uy':               { flag: '🇳🇴' },
-  'Argentina':           { flag: '🇦🇷' },
-  'Algeria':             { flag: '🇩🇿' },
-  'Áo':                  { flag: '🇦🇹' },
-  'Jordan':              { flag: '🇯🇴' },
-  'Bồ Đào Nha':          { flag: '🇵🇹' },
-  'CHDC Congo':          { flag: '🇨🇩' },
-  'Uzbekistan':          { flag: '🇺🇿' },
-  'Colombia':            { flag: '🇨🇴' },
-  'Anh':                 { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  'Croatia':             { flag: '🇭🇷' },
-  'Ghana':               { flag: '🇬🇭' },
-  'Panama':              { flag: '🇵🇦' },
+  'Mexico':              { flag:'🇲🇽' }, 'Nam Phi':             { flag:'🇿🇦' },
+  'Hàn Quốc':           { flag:'🇰🇷' }, 'CH Séc':              { flag:'🇨🇿' },
+  'Canada':              { flag:'🇨🇦' }, 'Bosnia & Herzegovina':{ flag:'🇧🇦' },
+  'Qatar':               { flag:'🇶🇦' }, 'Thụy Sĩ':            { flag:'🇨🇭' },
+  'Brazil':              { flag:'🇧🇷' }, 'Morocco':             { flag:'🇲🇦' },
+  'Haiti':               { flag:'🇭🇹' }, 'Scotland':            { flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+  'Mỹ':                  { flag:'🇺🇸' }, 'Paraguay':            { flag:'🇵🇾' },
+  'Australia':           { flag:'🇦🇺' }, 'Thổ Nhĩ Kỳ':         { flag:'🇹🇷' },
+  'Đức':                 { flag:'🇩🇪' }, 'Curacao':             { flag:'🇨🇼' },
+  'Bờ Biển Ngà':         { flag:'🇨🇮' }, 'Ecuador':             { flag:'🇪🇨' },
+  'Hà Lan':              { flag:'🇳🇱' }, 'Nhật Bản':            { flag:'🇯🇵' },
+  'Thụy Điển':           { flag:'🇸🇪' }, 'Tunisia':             { flag:'🇹🇳' },
+  'Tây Ban Nha':         { flag:'🇪🇸' }, 'Cape Verde':          { flag:'🇨🇻' },
+  'Saudi Arabia':        { flag:'🇸🇦' }, 'Uruguay':             { flag:'🇺🇾' },
+  'Bỉ':                  { flag:'🇧🇪' }, 'Ai Cập':              { flag:'🇪🇬' },
+  'Iran':                { flag:'🇮🇷' }, 'New Zealand':         { flag:'🇳🇿' },
+  'Pháp':                { flag:'🇫🇷' }, 'Senegal':             { flag:'🇸🇳' },
+  'Iraq':                { flag:'🇮🇶' }, 'Na Uy':               { flag:'🇳🇴' },
+  'Argentina':           { flag:'🇦🇷' }, 'Algeria':             { flag:'🇩🇿' },
+  'Áo':                  { flag:'🇦🇹' }, 'Jordan':              { flag:'🇯🇴' },
+  'Bồ Đào Nha':          { flag:'🇵🇹' }, 'CHDC Congo':          { flag:'🇨🇩' },
+  'Uzbekistan':          { flag:'🇺🇿' }, 'Colombia':            { flag:'🇨🇴' },
+  'Anh':                 { flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿' }, 'Croatia':             { flag:'🇭🇷' },
+  'Ghana':               { flag:'🇬🇭' }, 'Panama':              { flag:'🇵🇦' },
 };
 
 const GROUPS = { A:[],B:[],C:[],D:[],E:[],F:[],G:[],H:[],I:[],J:[],K:[],L:[] };
@@ -488,359 +669,425 @@ const MATCHES = [];
 
 let currentRound = 'Vòng bảng';
 let currentGroup = 'A';
-let predictions = JSON.parse(localStorage.getItem('wc2026_predictions') || '[]');
-let currentMatchId = null;
+let predictions = JSON.parse(localStorage.getItem('wc2026_preds') || '[]');
 
-/* CSV FETCH & PARSE */
-function parseCSVLine(line) {
-  const result = []; let cur = ''; let inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    if (line[i] === '"') { inQ = !inQ; }
-    else if (line[i] === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
-    else { cur += line[i]; }
-  }
-  result.push(cur.trim());
-  return result;
+/* ── POLLING ─────────────────────────────────────────────── */
+let _pollTimer = null;
+let _openModalId = null;   // track which match modal is open
+let _lastScores = {};        // matchId → 'hs-as' to detect changes
+const POLL_LIVE  = 30_000;   // 30s when there are live matches
+const POLL_IDLE  = 120_000;  // 2min otherwise
+
+function hasLiveMatches() { return MATCHES.some(m=>m.status==='live'); }
+
+function snapshotScores() {
+  _lastScores = {};
+  MATCHES.filter(m=>m.status==='live').forEach(m=>_lastScores[m.id]=`${m.hs}-${m.as}`);
 }
 
+function getChangedIds() {
+  const changed=[];
+  MATCHES.filter(m=>m.status==='live').forEach(m=>{
+    if (_lastScores[m.id] !== `${m.hs}-${m.as}`) changed.push(m.id);
+  });
+  return changed;
+}
+
+function schedulePoll() {
+  clearTimeout(_pollTimer);
+  const delay = hasLiveMatches() ? POLL_LIVE : POLL_IDLE;
+  _pollTimer = setTimeout(doRefresh, delay);
+}
+
+async function doRefresh(silent=true) {
+  if (!CONFIG.MATCHES_CSV_URL || CONFIG.USE_SAMPLE_DATA) { schedulePoll(); return; }
+  try {
+    snapshotScores();
+    const rows = await fetchCSV(CONFIG.MATCHES_CSV_URL);
+    MATCHES.length=0;
+    rows.forEach(r=>MATCHES.push({
+      id:parseInt(r.id), round:r.round, group:r.group||null,
+      home:r.home, away:r.away, date:r.date, time:r.time,
+      hs:r.homeScore!==''?parseInt(r.homeScore):null,
+      as:r.awayScore!==''?parseInt(r.awayScore):null,
+      status:r.status||'upcoming',
+    }));
+    rebuildGroups();
+    const changed = getChangedIds();
+    updateLiveBanner();
+    renderMatches(changed);
+    if (document.getElementById('tab-standings').classList.contains('active')) renderStandings();
+    setLastUpdated();
+    initPredictSelect();
+    // refresh open modal if it's a live match
+    if (_openModalId !== null) openModal(_openModalId);
+  } catch(e) { /* silent fail */ }
+  schedulePoll();
+}
+
+async function manualRefresh() {
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  await doRefresh(false);
+  btn.classList.remove('spinning');
+}
+
+function setLastUpdated() {
+  const t=new Date();
+  const s=t.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('lastUpdated').textContent=`Cập nhật lúc ${s}`;
+}
+
+function updateLiveBanner() {
+  const live = MATCHES.filter(m=>m.status==='live');
+  const banner=document.getElementById('liveBanner');
+  if (!live.length) {
+    banner.style.display='none';
+    document.querySelector('.content').style.paddingTop='calc(var(--hdr-h) + 4px)';
+    return;
+  }
+  banner.style.display='block';
+  document.getElementById('liveCount').textContent=`· ${live.length} trận`;
+  document.querySelector('.content').style.paddingTop='calc(var(--hdr-h) + 54px)';
+  // also show header live dot
+  const ind=document.getElementById('liveIndicator');
+  if(ind) ind.style.display='flex';
+}
+
+/* ── CSV ────────────────────────────────────────────────── */
+function parseCSVLine(line) {
+  const r=[]; let cur='', inQ=false;
+  for (let c of line) {
+    if (c==='"') inQ=!inQ;
+    else if (c===',' && !inQ) { r.push(cur.trim()); cur=''; }
+    else cur+=c;
+  }
+  r.push(cur.trim()); return r;
+}
 async function fetchCSV(url) {
-  const needsProxy = location.protocol === 'file:' || location.origin === 'null';
-  const fetchUrl = needsProxy
-    ? 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url)
-    : url;
-  const res = await fetch(fetchUrl);
-  const text = await res.text();
+  const proxy = location.protocol==='file:' || location.origin==='null';
+  const u = proxy ? 'https://api.allorigins.win/raw?url='+encodeURIComponent(url) : url;
+  const text = await (await fetch(u)).text();
   const lines = text.trim().split(/\r?\n/);
-  const headers = parseCSVLine(lines[0]);
-  return lines.slice(1).filter(l => l.trim()).map(line => {
-    const vals = parseCSVLine(line);
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = vals[i] ?? '');
-    return obj;
+  const hdrs = parseCSVLine(lines[0]);
+  return lines.slice(1).filter(l=>l.trim()).map(l => {
+    const v=parseCSVLine(l), o={};
+    hdrs.forEach((h,i)=> o[h]=v[i]??'');
+    return o;
   });
 }
-
 function rebuildGroups() {
-  Object.keys(GROUPS).forEach(k => GROUPS[k] = []);
-  MATCHES.filter(m => m.group).forEach(m => {
-    if (!GROUPS[m.group]) GROUPS[m.group] = [];
-    const skip = v => !v || v.startsWith('TBD') || v.startsWith('Nhất') || v.startsWith('Nhì') || v.startsWith('Thắng') || v.startsWith('Hạng');
+  Object.keys(GROUPS).forEach(k=>GROUPS[k]=[]);
+  const skip = v=>!v||/^(TBD|Nhất|Nhì|Thắng|Hạng)/.test(v);
+  MATCHES.filter(m=>m.group).forEach(m=>{
+    if (!GROUPS[m.group]) GROUPS[m.group]=[];
     if (!skip(m.home) && !GROUPS[m.group].includes(m.home)) GROUPS[m.group].push(m.home);
     if (!skip(m.away) && !GROUPS[m.group].includes(m.away)) GROUPS[m.group].push(m.away);
   });
 }
 
-/* HELPERS */
-function team(name) {
-  const t = TEAMS[name];
-  return { name: name, flag: t ? t.flag : '🏳️' };
-}
-function fmtDate(d) {
-  const dt = new Date(d + 'T00:00:00');
-  return dt.toLocaleDateString('vi-VN', { weekday:'short', day:'numeric', month:'numeric' });
-}
-function statusLabel(s) {
-  if (s === 'live')     return '<span class="status-tag live">● LIVE</span>';
-  if (s === 'finished') return '<span class="status-tag finished">✓ Kết thúc</span>';
-  return '<span class="status-tag upcoming">🕐 Sắp diễn ra</span>';
-}
-function showToast(msg, isError=false) {
+/* ── HELPERS ────────────────────────────────────────────── */
+const team = n => ({ name:n, flag: TEAMS[n]?.flag||'🏳️' });
+const fmtDate = d => new Date(d+'T00:00:00').toLocaleDateString('vi-VN',{weekday:'short',day:'numeric',month:'numeric'});
+const getRounds = () => [...new Set(MATCHES.map(m=>m.round))];
+
+function toast(msg, isErr=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast' + (isError?' error-toast':'') + ' show';
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-function getRounds() {
-  const seen = new Set(); const rounds = [];
-  MATCHES.forEach(m => { if (!seen.has(m.round)) { seen.add(m.round); rounds.push(m.round); } });
-  return rounds;
+  t.className = 'toast show' + (isErr?' err':'');
+  setTimeout(()=>t.classList.remove('show'), 2400);
 }
 
-/* STANDINGS */
-function computeStandings(groupKey) {
-  const teams = GROUPS[groupKey] || [];
-  const stats = {};
-  teams.forEach(t => stats[t] = { p:0, w:0, d:0, l:0, gf:0, ga:0, pts:0, form:[] });
-  MATCHES.filter(m => m.group === groupKey && m.status === 'finished').forEach(m => {
-    const h = m.home, a = m.away;
-    if (!stats[h] || !stats[a]) return;
-    stats[h].p++; stats[a].p++;
-    stats[h].gf += m.hs; stats[h].ga += m.as;
-    stats[a].gf += m.as; stats[a].ga += m.hs;
-    if (m.hs > m.as) {
-      stats[h].w++; stats[h].pts+=3; stats[h].form.push('w');
-      stats[a].l++;                   stats[a].form.push('l');
-    } else if (m.hs < m.as) {
-      stats[a].w++; stats[a].pts+=3; stats[a].form.push('w');
-      stats[h].l++;                   stats[h].form.push('l');
-    } else {
-      stats[h].d++; stats[h].pts++; stats[h].form.push('d');
-      stats[a].d++; stats[a].pts++; stats[a].form.push('d');
-    }
+/* ── STANDINGS ──────────────────────────────────────────── */
+function computeStandings(gk) {
+  const teams=GROUPS[gk]||[], s={};
+  teams.forEach(t=>s[t]={p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0});
+  MATCHES.filter(m=>m.group===gk&&m.status==='finished').forEach(m=>{
+    if(!s[m.home]||!s[m.away]) return;
+    s[m.home].p++; s[m.away].p++;
+    s[m.home].gf+=m.hs; s[m.home].ga+=m.as;
+    s[m.away].gf+=m.as; s[m.away].ga+=m.hs;
+    if(m.hs>m.as){s[m.home].w++;s[m.home].pts+=3;s[m.away].l++;}
+    else if(m.hs<m.as){s[m.away].w++;s[m.away].pts+=3;s[m.home].l++;}
+    else{s[m.home].d++;s[m.home].pts++;s[m.away].d++;s[m.away].pts++;}
   });
-  return teams.map(t => ({ code:t, ...stats[t] }))
-    .sort((a,b) => b.pts-a.pts || (b.gf-b.ga)-(a.gf-a.ga) || b.gf-a.gf);
+  return teams.map(t=>({code:t,...s[t]}))
+    .sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf);
 }
 
-/* TAB NAV */
+/* ── TAB NAV ────────────────────────────────────────────── */
 function switchTab(name, el) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
   el.classList.add('active');
-  if (name === 'standings') renderStandings();
-  if (name === 'predict') renderPredictions();
+  if (name==='standings') renderStandings();
+  if (name==='predict') renderPredictions();
 }
 
-/* SCHEDULE */
-function initRoundChips() {
-  const rounds = getRounds();
-  document.getElementById('roundChips').innerHTML = rounds.map(r =>
-    `<div class="chip${r===currentRound?' active':''}" onclick="filterRound('${r}',this)">${r}</div>`
+/* ── SCHEDULE ───────────────────────────────────────────── */
+function initChips() {
+  document.getElementById('roundChips').innerHTML = getRounds().map(r =>
+    `<div class="chip${r===currentRound?' active':''}" onclick="setRound('${r}',this)">${r}</div>`
   ).join('');
 }
-function filterRound(round, el) {
-  currentRound = round;
-  document.querySelectorAll('#roundChips .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderMatches();
+function setRound(r, el) {
+  currentRound=r;
+  document.querySelectorAll('#roundChips .chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active'); renderMatches();
 }
-function renderMatches() {
-  const filtered = MATCHES.filter(m => m.round === currentRound);
+function renderMatches(changedIds=[]) {
+  const list = MATCHES.filter(m=>m.round===currentRound);
   const byDate = {};
-  filtered.forEach(m => { (byDate[m.date] = byDate[m.date] || []).push(m); });
-  document.getElementById('liveIndicator').style.display = filtered.some(m => m.status === 'live') ? 'flex' : 'none';
-  let html = '';
-  Object.keys(byDate).sort().forEach(date => {
-    html += `<div class="section-label">${fmtDate(date)}</div>`;
-    byDate[date].forEach(m => { html += matchCard(m); });
+  list.forEach(m=>(byDate[m.date]=byDate[m.date]||[]).push(m));
+  let html='';
+  Object.keys(byDate).sort().forEach(d=>{
+    html += `<div class="lbl">${fmtDate(d)}</div>`;
+    byDate[d].forEach(m=>html+=matchCard(m, changedIds.includes(m.id)));
   });
-  if (!html) html = `<div class="empty-state"><div class="e-icon">🗓️</div><p>Chưa có trận đấu nào</p></div>`;
-  document.getElementById('matchList').innerHTML = html;
+  document.getElementById('matchList').innerHTML = html ||
+    `<div class="empty"><div class="empty-ico">🗓</div><p>Chưa có trận đấu</p></div>`;
 }
-function matchCard(m) {
-  const h = team(m.home), a = team(m.away);
-  const pCount = predictions.filter(p => p.matchId === m.id).length;
-  const groupBadge = m.group ? `Bảng ${m.group}` : m.round;
+
+function statusMeta(s) {
+  if (s==='live')     return `<span class="mc-status live"><span class="mc-status-dot"></span>Live</span>`;
+  if (s==='finished') return `<span class="mc-status finished"><span class="mc-status-dot"></span>KT</span>`;
+  return `<span class="mc-status upcoming"><span class="mc-status-dot"></span>Sắp diễn ra</span>`;
+}
+
+function matchCard(m, scoreChanged=false) {
+  const h=team(m.home), a=team(m.away);
+  const pCount = predictions.filter(p=>p.matchId===m.id).length;
+  const badge = m.group ? `Bảng ${m.group}` : m.round;
+  const liveClass = m.status==='live' ? ' is-live' : m.status==='finished' ? ' is-finished' : '';
+  const flashCls = scoreChanged ? ' changed' : '';
+
   let scoreHTML;
-  if (m.status === 'upcoming') {
-    scoreHTML = `<div class="score-display"><span class="score-vs">VS</span></div>`;
+  if (m.status==='upcoming') {
+    scoreHTML = `<div class="mc-score-box"><span class="mc-vs">VS</span></div>`;
   } else {
-    const cls = m.status === 'live' ? ' live' : '';
-    scoreHTML = `<div class="score-display">
-      <span class="score-num${cls}">${m.hs}</span>
-      <span class="score-sep">–</span>
-      <span class="score-num${cls}">${m.as}</span>
+    scoreHTML = `<div class="mc-score-box">
+      <div class="mc-score${flashCls}">
+        <span>${m.hs}</span><span class="mc-score-sep">–</span><span>${m.as}</span>
+      </div>
     </div>`;
   }
-  return `<div class="match-card" onclick="openMatchModal(${m.id})">
-    <div class="match-card-header">
-      <span class="match-round-badge">${groupBadge}</span>
-      ${statusLabel(m.status)}
-      <span class="match-time-str">${m.time} ICT</span>
+
+  return `<div class="mc${liveClass}" onclick="openModal(${m.id})">
+    <div class="mc-meta">
+      <span class="mc-group">${badge}</span>
+      ${statusMeta(m.status)}
+      <span class="mc-time">${m.time}</span>
     </div>
-    <div class="match-body">
-      <div class="match-teams">
-        <div class="team-col"><div class="team-flag-big">${h.flag}</div><div class="team-name-sm">${h.name}</div></div>
-        <div class="score-col">${scoreHTML}</div>
-        <div class="team-col"><div class="team-flag-big">${a.flag}</div><div class="team-name-sm">${a.name}</div></div>
+    <div class="mc-body">
+      <div class="mc-row">
+        <div class="mc-team">
+          <div class="mc-flag">${h.flag}</div>
+          <div class="mc-name">${h.name}</div>
+        </div>
+        ${scoreHTML}
+        <div class="mc-team">
+          <div class="mc-flag">${a.flag}</div>
+          <div class="mc-name">${a.name}</div>
+        </div>
       </div>
     </div>
-    <div class="match-footer">
-      <span class="match-pred-count">🎯 ${pCount} dự đoán</span>
-      ${m.status === 'upcoming' ? `<button class="btn-predict" onclick="event.stopPropagation();goPredict(${m.id})">Dự đoán</button>` : ''}
+    <div class="mc-foot">
+      <span class="mc-preds"><span class="mc-preds-icon">🎯</span>${pCount} dự đoán</span>
+      ${m.status==='upcoming'?`<button class="btn-pred" onclick="event.stopPropagation();goPredict(${m.id})">Dự đoán</button>`:''}
     </div>
   </div>`;
 }
 
-/* STANDINGS */
+/* ── STANDINGS RENDER ───────────────────────────────────── */
 function initGroupGrid() {
-  document.getElementById('groupGrid').innerHTML = Object.keys(GROUPS).map(k =>
-    `<div class="group-tile${k===currentGroup?' active':''}" onclick="selectGroup('${k}',this)">${k}</div>`
+  document.getElementById('groupGrid').innerHTML = Object.keys(GROUPS).map(k=>
+    `<div class="grp-btn${k===currentGroup?' active':''}" onclick="setGroup('${k}',this)">${k}</div>`
   ).join('');
 }
-function selectGroup(k, el) {
-  currentGroup = k;
-  document.querySelectorAll('.group-tile').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  renderStandings();
+function setGroup(k, el) {
+  currentGroup=k;
+  document.querySelectorAll('.grp-btn').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active'); renderStandings();
 }
 function renderStandings() {
-  const rows = computeStandings(currentGroup);
-  const groupTeams = GROUPS[currentGroup] || [];
-  let html = `<div class="standings-wrap">
-    <div class="standings-title">Bảng <span>${currentGroup}</span> — ${groupTeams.map(t=>team(t).flag).join(' ')}</div>
+  const rows=computeStandings(currentGroup);
+  const flags=GROUPS[currentGroup].map(t=>team(t).flag).join(' ');
+  let html=`<div class="std-wrap">
+    <div class="std-head">
+      <span class="std-head-group">Bảng ${currentGroup}</span>
+      <span class="std-head-flags">${flags}</span>
+    </div>
     <table class="std"><thead><tr>
       <th>Đội</th><th>Tr</th><th>T</th><th>H</th><th>B</th><th>HS</th><th>Đ</th>
     </tr></thead><tbody>`;
-  rows.forEach(r => {
-    const gd = r.gf - r.ga;
-    html += `<tr><td><div class="pos-border"><div class="team-std-cell">
-      <span class="team-std-flag">${team(r.code).flag}</span>
-      <span class="team-std-name">${team(r.code).name}</span>
-    </div></div></td>
-    <td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
-    <td style="color:${gd>0?'var(--green)':gd<0?'var(--red)':'var(--muted)'}">${gd>0?'+':''}${gd}</td>
-    <td class="pts-bold">${r.pts}</td></tr>`;
+  rows.forEach((r,i)=>{
+    const gd=r.gf-r.ga;
+    const barCls = i<2?'q':i===2?'b3':'out';
+    html+=`<tr><td><div class="std-pos">
+      <div class="std-bar ${barCls}"></div>
+      <div class="std-team">
+        <span class="std-flag">${team(r.code).flag}</span>
+        <span class="std-name">${team(r.code).name}</span>
+      </div></div></td>
+      <td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+      <td style="color:${gd>0?'var(--green)':gd<0?'var(--red)':'var(--text2)'}">${gd>0?'+':''}${gd}</td>
+      <td>${r.pts}</td></tr>`;
   });
-  html += `</tbody></table></div>`;
-  document.getElementById('standingsContent').innerHTML = html;
+  html+=`</tbody></table></div>`;
+  document.getElementById('standingsContent').innerHTML=html;
 }
 
-/* PREDICTIONS */
+/* ── PREDICTION ─────────────────────────────────────────── */
 function initPredictSelect() {
-  const sel = document.getElementById('predMatch');
-  const upcoming = MATCHES.filter(m => m.status === 'upcoming' && m.group);
-  sel.innerHTML = '<option value="">-- Chọn trận đấu --</option>' +
-    upcoming.map(m => {
-      const h = team(m.home), a = team(m.away);
-      return `<option value="${m.id}">${h.flag} ${h.name} vs ${a.name} ${a.flag} — ${fmtDate(m.date)} ${m.time}</option>`;
+  const upcoming=MATCHES.filter(m=>m.status==='upcoming'&&m.group);
+  document.getElementById('predMatch').innerHTML=
+    '<option value="">— chọn trận đấu —</option>'+
+    upcoming.map(m=>{
+      const h=team(m.home),a=team(m.away);
+      return `<option value="${m.id}">${h.flag} ${h.name} vs ${a.name} ${a.flag} · ${fmtDate(m.date)} ${m.time}</option>`;
     }).join('');
 }
 function onMatchSelect() {
-  const id = parseInt(document.getElementById('predMatch').value);
-  const box = document.getElementById('matchPreviewBox');
-  if (!id) { box.style.display='none'; return; }
-  const m = MATCHES.find(x => x.id === id);
-  if (!m) return;
-  const h = team(m.home), a = team(m.away);
-  document.getElementById('prevHomeFlag').textContent = h.flag;
-  document.getElementById('prevHomeName').textContent = h.name;
-  document.getElementById('prevAwayFlag').textContent = a.flag;
-  document.getElementById('prevAwayName').textContent = a.name;
-  box.style.display = 'flex';
+  const id=parseInt(document.getElementById('predMatch').value);
+  const box=document.getElementById('matchPreviewBox');
+  if (!id){box.style.display='none';return;}
+  const m=MATCHES.find(x=>x.id===id); if (!m) return;
+  const h=team(m.home),a=team(m.away);
+  document.getElementById('prevHomeFlag').textContent=h.flag;
+  document.getElementById('prevHomeName').textContent=h.name;
+  document.getElementById('prevAwayFlag').textContent=a.flag;
+  document.getElementById('prevAwayName').textContent=a.name;
+  box.style.display='block';
 }
-function goPredict(matchId) {
-  switchTab('predict', document.querySelectorAll('.nav-item')[2]);
-  document.getElementById('predMatch').value = matchId;
-  onMatchSelect();
-  document.getElementById('predMatch').scrollIntoView({ behavior:'smooth', block:'center' });
+function goPredict(mid) {
+  switchTab('predict', document.querySelectorAll('.nav-btn')[2]);
+  document.getElementById('predMatch').value=mid; onMatchSelect();
+  document.getElementById('predMatch').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function submitPrediction() {
-  const name = document.getElementById('predName').value.trim();
-  const matchId = parseInt(document.getElementById('predMatch').value);
-  const hs = document.getElementById('predHome').value;
-  const as = document.getElementById('predAway').value;
-  if (!name) { showToast('Nhập tên của bạn trước! 😅', true); return; }
-  if (!matchId) { showToast('Chọn trận đấu!', true); return; }
-  if (hs === '' || as === '') { showToast('Nhập tỉ số dự đoán!', true); return; }
-  const match = MATCHES.find(m => m.id === matchId);
-  if (!match) return;
-  const existing = predictions.findIndex(p => p.matchId === matchId && p.name === name);
-  const pred = { name, matchId, hs: parseInt(hs), as: parseInt(as), ts: Date.now() };
-  if (existing >= 0) { predictions[existing] = pred; showToast('✅ Đã cập nhật dự đoán!'); }
-  else { predictions.push(pred); showToast('🎉 Đã lưu dự đoán!'); }
-  localStorage.setItem('wc2026_predictions', JSON.stringify(predictions));
+  const name=document.getElementById('predName').value.trim();
+  const mid=parseInt(document.getElementById('predMatch').value);
+  const hs=document.getElementById('predHome').value;
+  const as=document.getElementById('predAway').value;
+  if (!name) {toast('Nhập tên của bạn trước',true);return;}
+  if (!mid)  {toast('Chọn trận đấu',true);return;}
+  if (hs===''||as===''){toast('Nhập tỉ số dự đoán',true);return;}
+  const match=MATCHES.find(m=>m.id===mid); if (!match) return;
+  const pred={name,matchId:mid,hs:parseInt(hs),as:parseInt(as),ts:Date.now()};
+  const idx=predictions.findIndex(p=>p.matchId===mid&&p.name===name);
+  if (idx>=0){predictions[idx]=pred;toast('✓ Đã cập nhật');}
+  else {predictions.push(pred);toast('✓ Đã lưu dự đoán');}
+  localStorage.setItem('wc2026_preds',JSON.stringify(predictions));
   if (CONFIG.PREDICTIONS_SCRIPT_URL) {
-    const h = team(match.home), a = team(match.away);
-    fetch(CONFIG.PREDICTIONS_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ name, matchId, match:`${h.name} vs ${a.name}`, hs, as, ts: new Date().toISOString() })
+    const h=team(match.home),a=team(match.away);
+    fetch(CONFIG.PREDICTIONS_SCRIPT_URL,{
+      method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,matchId:mid,match:`${h.name} vs ${a.name}`,hs,as,ts:new Date().toISOString()})
     }).catch(()=>{});
   }
-  document.getElementById('predHome').value = '';
-  document.getElementById('predAway').value = '';
+  document.getElementById('predHome').value='';
+  document.getElementById('predAway').value='';
   renderPredictions();
 }
-function getPredictVerdict(pred, match) {
-  if (match.status !== 'finished' || match.hs === null) return null;
-  if (pred.hs === match.hs && pred.as === match.as) return { text:'⚽ Đúng tỉ số! +3', cls:'correct' };
-  const pr = pred.hs > pred.as ? 'h' : pred.hs < pred.as ? 'a' : 'd';
-  const rr = match.hs > match.as ? 'h' : match.hs < match.as ? 'a' : 'd';
-  if (pr === rr) return { text:'✓ Đúng kết quả +1', cls:'partial' };
-  return { text:'✗ Sai', cls:'wrong' };
+function verdict(pred, match) {
+  if (match.status!=='finished'||match.hs===null) return null;
+  if (pred.hs===match.hs&&pred.as===match.as) return {t:'⚽ Đúng tỉ số +3',c:'correct'};
+  const pr=pred.hs>pred.as?'h':pred.hs<pred.as?'a':'d';
+  const rr=match.hs>match.as?'h':match.hs<match.as?'a':'d';
+  return pr===rr ? {t:'✓ Đúng kết quả +1',c:'partial'} : {t:'✗ Sai',c:'wrong'};
 }
 function renderPredictions() {
-  const wrap = document.getElementById('allPredictions');
-  if (!predictions.length) {
-    wrap.innerHTML = `<div class="empty-state"><div class="e-icon">🎯</div><p>Chưa có dự đoán nào.<br>Hãy là người đầu tiên!</p></div>`;
+  const wrap=document.getElementById('allPredictions');
+  if (!predictions.length){
+    wrap.innerHTML=`<div class="empty"><div class="empty-ico">🎯</div><p>Chưa có dự đoán nào.<br>Hãy là người đầu tiên!</p></div>`;
     return;
   }
-  wrap.innerHTML = [...predictions].sort((a,b) => b.ts-a.ts).map(p => {
-    const m = MATCHES.find(x => x.id === p.matchId);
-    if (!m) return '';
-    const h = team(m.home), a = team(m.away);
-    const v = getPredictVerdict(p, m);
-    const initials = p.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    return `<div class="pred-item">
-      <div class="pred-avatar">${initials}</div>
-      <div class="pred-info">
-        <div class="pred-name">${p.name}</div>
-        <div class="pred-match-name">${h.flag} ${h.name} vs ${a.name} ${a.flag}</div>
+  wrap.innerHTML=[...predictions].sort((a,b)=>b.ts-a.ts).map(p=>{
+    const m=MATCHES.find(x=>x.id===p.matchId); if (!m) return '';
+    const h=team(m.home),a=team(m.away),v=verdict(p,m);
+    const ini=p.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="pi">
+      <div class="pi-av">${ini}</div>
+      <div class="pi-info">
+        <div class="pi-name">${p.name}</div>
+        <div class="pi-match">${h.flag} ${h.name} vs ${a.name} ${a.flag}</div>
       </div>
-      <div class="pred-result">
-        <div class="pred-score-big">${p.hs} – ${p.as}</div>
-        ${v ? `<div class="pred-verdict ${v.cls}">${v.text}</div>` : '<div class="pred-verdict" style="color:var(--muted);font-size:9px">Chờ kết quả</div>'}
+      <div class="pi-right">
+        <div class="pi-score">${p.hs}–${p.as}</div>
+        ${v?`<div class="pi-verdict ${v.c}">${v.t}</div>`:`<div class="pi-verdict pending">Chờ KQ</div>`}
       </div>
     </div>`;
   }).join('');
 }
 
-/* MODAL */
-function openMatchModal(id) {
-  const m = MATCHES.find(x => x.id === id);
-  if (!m) return;
-  currentMatchId = id;
-  const h = team(m.home), a = team(m.away);
-  document.getElementById('modalTitle').textContent = `${h.name} vs ${a.name}`;
-  document.getElementById('mHomeFlag').textContent = h.flag;
-  document.getElementById('mAwayFlag').textContent = a.flag;
-  document.getElementById('mHomeScore').textContent = m.status !== 'upcoming' ? m.hs : '';
-  document.getElementById('mAwayScore').textContent = m.status !== 'upcoming' ? m.as : '';
-  document.querySelector('#matchModal .modal-sep').style.display = m.status!=='upcoming' ? '' : 'none';
-  document.getElementById('mNames').textContent = `${h.name}  ·  ${a.name}`;
-  document.getElementById('mStatusTag').innerHTML = statusLabel(m.status);
-  document.getElementById('mVenue').textContent = `📅 ${fmtDate(m.date)} · ${m.time} ICT`;
-  const preds = predictions.filter(p => p.matchId === id);
-  document.getElementById('modalPredictions').innerHTML = preds.length ? preds.map(p => {
-    const v = getPredictVerdict(p, m);
-    const initials = p.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    return `<div class="pred-item">
-      <div class="pred-avatar">${initials}</div>
-      <div class="pred-info"><div class="pred-name">${p.name}</div></div>
-      <div class="pred-result">
-        <div class="pred-score-big">${p.hs} – ${p.as}</div>
-        ${v ? `<div class="pred-verdict ${v.cls}">${v.text}</div>` : ''}
-      </div>
-    </div>`;
-  }).join('') : `<div class="empty-state" style="padding:20px"><div class="e-icon">🎯</div><p>Chưa có dự đoán</p></div>`;
+/* ── MODAL ──────────────────────────────────────────────── */
+function openModal(id) {
+  _openModalId = id;
+  const m=MATCHES.find(x=>x.id===id); if (!m) return;
+  const h=team(m.home),a=team(m.away);
+  document.getElementById('modalTitle').textContent=`${h.name} vs ${a.name}`;
+  document.getElementById('mHomeFlag').textContent=h.flag;
+  document.getElementById('mAwayFlag').textContent=a.flag;
+  const hasScore=m.status!=='upcoming';
+  document.getElementById('mHomeScore').textContent=hasScore?m.hs:'';
+  document.getElementById('mAwayScore').textContent=hasScore?m.as:'';
+  document.getElementById('mScSep').style.display=hasScore?'':'none';
+  document.getElementById('mNames').textContent=`${h.name}  ·  ${a.name}`;
+  const statusTag = m.status==='live'
+    ? `<span style="display:inline-flex;align-items:center;gap:5px;color:var(--red);font-size:11px;font-weight:700"><span style="width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block;animation:blink 1s infinite"></span>ĐANG DIỄN RA</span>`
+    : m.status==='finished' ? `<span style="color:var(--green);font-size:11px;font-weight:700">KẾT THÚC</span>` : '';
+  document.getElementById('mMeta').innerHTML=`${fmtDate(m.date)} · ${m.time} ICT ${statusTag?'· '+statusTag:''}`;
+  const preds=predictions.filter(p=>p.matchId===id);
+  document.getElementById('modalPredictions').innerHTML=preds.length
+    ? preds.map(p=>{
+        const v=verdict(p,m);
+        const ini=p.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+        return `<div class="pi">
+          <div class="pi-av">${ini}</div>
+          <div class="pi-info"><div class="pi-name">${p.name}</div></div>
+          <div class="pi-right">
+            <div class="pi-score">${p.hs}–${p.as}</div>
+            ${v?`<div class="pi-verdict ${v.c}">${v.t}</div>`:''}
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="empty" style="padding:24px 0"><div class="empty-ico">🎯</div><p>Chưa có dự đoán</p></div>`;
   document.getElementById('matchModal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-function closeModal(e) { if (e.target === document.getElementById('matchModal')) closeModalDirect(); }
-function closeModalDirect() { document.getElementById('matchModal').classList.add('hidden'); document.body.style.overflow = ''; }
+function closeModal(e){if(e.target===document.getElementById('matchModal'))closeModalDirect();}
+function closeModalDirect(){_openModalId=null;document.getElementById('matchModal').classList.add('hidden');document.body.style.overflow='';}
 
-/* INIT */
+/* ── INIT ───────────────────────────────────────────────── */
 async function init() {
-  document.getElementById('matchList').innerHTML =
-    `<div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Đang tải lịch thi đấu...</div></div>`;
+  document.getElementById('matchList').innerHTML=
+    `<div class="loading"><div class="spin"></div><div class="loading-t">Đang tải lịch thi đấu…</div></div>`;
   if (!CONFIG.USE_SAMPLE_DATA && CONFIG.MATCHES_CSV_URL) {
     try {
-      const rows = await fetchCSV(CONFIG.MATCHES_CSV_URL);
-      MATCHES.length = 0;
-      rows.forEach(r => MATCHES.push({
-        id: parseInt(r.id), round: r.round, group: r.group || null,
-        home: r.home, away: r.away, date: r.date, time: r.time,
-        hs: r.homeScore !== '' ? parseInt(r.homeScore) : null,
-        as: r.awayScore !== '' ? parseInt(r.awayScore) : null,
-        status: r.status || 'upcoming',
+      const rows=await fetchCSV(CONFIG.MATCHES_CSV_URL);
+      MATCHES.length=0;
+      rows.forEach(r=>MATCHES.push({
+        id:parseInt(r.id), round:r.round, group:r.group||null,
+        home:r.home, away:r.away, date:r.date, time:r.time,
+        hs:r.homeScore!==''?parseInt(r.homeScore):null,
+        as:r.awayScore!==''?parseInt(r.awayScore):null,
+        status:r.status||'upcoming',
       }));
       rebuildGroups();
+      setLastUpdated();
     } catch(e) {
-      console.error('CSV fetch failed:', e);
-      showToast('Không tải được lịch — kiểm tra kết nối', true);
+      console.error(e);
+      toast('Không tải được lịch thi đấu',true);
     }
-  } else {
-    rebuildGroups();
-  }
-  initRoundChips();
-  renderMatches();
-  initGroupGrid();
-  renderStandings();
+  } else { rebuildGroups(); }
+  updateLiveBanner();
+  initChips(); renderMatches();
+  initGroupGrid(); renderStandings();
   initPredictSelect();
+  schedulePoll();   // start auto-refresh cycle
 }
-
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
