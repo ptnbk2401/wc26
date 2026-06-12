@@ -1,0 +1,105 @@
+id,round,group,home,away,date,time,homeScore,awayScore,status
+1,Vòng bảng,A,Mexico,Nam Phi,2026-06-12,02:00,,,upcoming
+2,Vòng bảng,A,Hàn Quốc,CH Séc,2026-06-12,09:00,,,upcoming
+3,Vòng bảng,B,Canada,Bosnia & Herzegovina,2026-06-13,03:00,,,upcoming
+4,Vòng bảng,D,Mỹ,Paraguay,2026-06-13,08:00,,,upcoming
+5,Vòng bảng,B,Qatar,Thụy Sĩ,2026-06-14,02:00,,,upcoming
+6,Vòng bảng,C,Brazil,Morocco,2026-06-14,05:00,,,upcoming
+7,Vòng bảng,C,Haiti,Scotland,2026-06-14,08:00,,,upcoming
+8,Vòng bảng,D,Australia,Thổ Nhĩ Kỳ,2026-06-14,23:00,,,upcoming
+9,Vòng bảng,E,Đức,Curacao,2026-06-15,00:00,,,upcoming
+10,Vòng bảng,F,Hà Lan,Nhật Bản,2026-06-15,03:00,,,upcoming
+11,Vòng bảng,E,Bờ Biển Ngà,Ecuador,2026-06-15,06:00,,,upcoming
+12,Vòng bảng,F,Thụy Điển,Tunisia,2026-06-15,09:00,,,upcoming
+13,Vòng bảng,H,Tây Ban Nha,Cape Verde,2026-06-15,23:00,,,upcoming
+14,Vòng bảng,G,Bỉ,Ai Cập,2026-06-16,02:00,,,upcoming
+15,Vòng bảng,H,Saudi Arabia,Uruguay,2026-06-16,05:00,,,upcoming
+16,Vòng bảng,G,Iran,New Zealand,2026-06-16,08:00,,,upcoming
+17,Vòng bảng,I,Pháp,Senegal,2026-06-17,02:00,,,upcoming
+18,Vòng bảng,I,Iraq,Na Uy,2026-06-17,05:00,,,upcoming
+19,Vòng bảng,J,Argentina,Algeria,2026-06-17,08:00,,,upcoming
+20,Vòng bảng,J,Áo,Jordan,2026-06-17,11:00,,,upcoming
+21,Vòng bảng,K,Bồ Đào Nha,CHDC Congo,2026-06-18,00:00,,,upcoming
+22,Vòng bảng,L,Anh,Croatia,2026-06-18,03:00,,,upcoming
+23,Vòng bảng,L,Ghana,Panama,2026-06-18,06:00,,,upcoming
+24,Vòng bảng,K,Uzbekistan,Colombia,2026-06-18,09:00,,,upcoming
+25,Vòng bảng,A,CH Séc,Nam Phi,2026-06-18,23:00,,,upcoming
+26,Vòng bảng,B,Thụy Sĩ,Bosnia & Herzegovina,2026-06-19,02:00,,,upcoming
+27,Vòng bảng,B,Canada,Qatar,2026-06-19,05:00,,,upcoming
+28,Vòng bảng,A,Mexico,Hàn Quốc,2026-06-19,08:00,,,upcoming
+29,Vòng bảng,D,Mỹ,Australia,2026-06-20,02:00,,,upcoming
+30,Vòng bảng,C,Scotland,Morocco,2026-06-20,05:00,,,upcoming
+31,Vòng bảng,C,Brazil,Haiti,2026-06-20,08:00,,,upcoming
+32,Vòng bảng,D,Thổ Nhĩ Kỳ,Paraguay,2026-06-20,11:00,,,upcoming
+33,Vòng bảng,F,Hà Lan,Thụy Điển,2026-06-21,00:00,,,upcoming
+34,Vòng bảng,E,Đức,Bờ Biển Ngà,2026-06-21,03:00,,,upcoming
+35,Vòng bảng,E,Ecuador,Curacao,2026-06-21,07:00,,,upcoming
+36,Vòng bảng,F,Tunisia,Nhật Bản,2026-06-21,11:00,,,upcoming
+37,Vòng bảng,H,Tây Ban Nha,Saudi Arabia,2026-06-21,11:00,,,upcoming
+38,Vòng bảng,G,Bỉ,Iran,2026-06-22,02:00,,,upcoming
+39,Vòng bảng,H,Uruguay,Cape Verde,2026-06-22,05:00,,,upcoming
+40,Vòng bảng,G,New Zealand,Ai Cập,2026-06-22,08:00,,,upcoming
+41,Vòng bảng,J,Argentina,Áo,2026-06-23,02:00,,,upcoming
+42,Vòng bảng,I,Pháp,Iraq,2026-06-23,04:00,,,upcoming
+43,Vòng bảng,I,Na Uy,Senegal,2026-06-23,07:00,,,upcoming
+44,Vòng bảng,J,Jordan,Algeria,2026-06-23,10:00,,,upcoming
+45,Vòng bảng,K,Bồ Đào Nha,Uzbekistan,2026-06-24,00:00,,,upcoming
+46,Vòng bảng,L,Anh,Ghana,2026-06-24,03:00,,,upcoming
+47,Vòng bảng,L,Panama,Croatia,2026-06-24,06:00,,,upcoming
+48,Vòng bảng,K,Colombia,CHDC Congo,2026-06-24,09:00,,,upcoming
+49,Vòng bảng,B,Thụy Sĩ,Canada,2026-06-25,02:00,,,upcoming
+50,Vòng bảng,B,Bosnia & Herzegovina,Qatar,2026-06-25,02:00,,,upcoming
+51,Vòng bảng,C,Morocco,Haiti,2026-06-25,05:00,,,upcoming
+52,Vòng bảng,C,Scotland,Brazil,2026-06-25,05:00,,,upcoming
+53,Vòng bảng,A,Nam Phi,Hàn Quốc,2026-06-25,08:00,,,upcoming
+54,Vòng bảng,A,CH Séc,Mexico,2026-06-25,08:00,,,upcoming
+55,Vòng bảng,E,Curacao,Bờ Biển Ngà,2026-06-26,03:00,,,upcoming
+56,Vòng bảng,E,Ecuador,Đức,2026-06-26,03:00,,,upcoming
+57,Vòng bảng,F,Tunisia,Hà Lan,2026-06-26,06:00,,,upcoming
+58,Vòng bảng,F,Nhật Bản,Thụy Điển,2026-06-26,06:00,,,upcoming
+59,Vòng bảng,D,Thổ Nhĩ Kỳ,Mỹ,2026-06-26,09:00,,,upcoming
+60,Vòng bảng,D,Paraguay,Australia,2026-06-26,09:00,,,upcoming
+61,Vòng bảng,I,Na Uy,Pháp,2026-06-27,02:00,,,upcoming
+62,Vòng bảng,I,Senegal,Iraq,2026-06-27,02:00,,,upcoming
+63,Vòng bảng,H,Cape Verde,Saudi Arabia,2026-06-27,07:00,,,upcoming
+64,Vòng bảng,H,Uruguay,Tây Ban Nha,2026-06-27,07:00,,,upcoming
+65,Vòng bảng,G,New Zealand,Bỉ,2026-06-27,10:00,,,upcoming
+66,Vòng bảng,G,Ai Cập,Iran,2026-06-27,10:00,,,upcoming
+67,Vòng bảng,L,Panama,Anh,2026-06-28,04:00,,,upcoming
+68,Vòng bảng,L,Croatia,Ghana,2026-06-28,04:00,,,upcoming
+69,Vòng bảng,K,Colombia,Bồ Đào Nha,2026-06-28,06:30,,,upcoming
+70,Vòng bảng,K,CHDC Congo,Uzbekistan,2026-06-28,06:30,,,upcoming
+71,Vòng bảng,J,Algeria,Áo,2026-06-28,09:00,,,upcoming
+72,Vòng bảng,J,Jordan,Argentina,2026-06-28,09:00,,,upcoming
+73,Vòng 1/16,,Nhì A,Nhì B,2026-06-28,,,,upcoming
+74,Vòng 1/16,,Nhất E,Hạng 3 (A/B/C/D/F),2026-06-29,,,,upcoming
+75,Vòng 1/16,,Nhất F,Nhì C,2026-06-29,,,,upcoming
+76,Vòng 1/16,,Nhất C,Nhì F,2026-06-29,,,,upcoming
+77,Vòng 1/16,,Nhất I,Hạng 3 (C/D/F/G/H),2026-06-30,,,,upcoming
+78,Vòng 1/16,,Nhì E,Nhì I,2026-06-30,,,,upcoming
+79,Vòng 1/16,,Nhất A,Hạng 3 (C/E/F/H/I),2026-06-30,,,,upcoming
+80,Vòng 1/16,,Nhất L,Hạng 3 (E/H/I/J/K),2026-07-01,,,,upcoming
+81,Vòng 1/16,,Nhất D,Hạng 3 (B/E/F/I/J),2026-07-01,,,,upcoming
+82,Vòng 1/16,,Nhất G,Hạng 3 (A/E/H/I/J),2026-07-01,,,,upcoming
+83,Vòng 1/16,,Nhì K,Nhì L,2026-07-02,,,,upcoming
+84,Vòng 1/16,,Nhất H,Nhì J,2026-07-02,,,,upcoming
+85,Vòng 1/16,,Nhất B,Hạng 3 (E/F/G/I/J),2026-07-02,,,,upcoming
+86,Vòng 1/16,,Nhất J,Nhì H,2026-07-03,,,,upcoming
+87,Vòng 1/16,,Nhất K,Hạng 3 (D/E/I/J/L),2026-07-03,,,,upcoming
+88,Vòng 1/16,,Nhì D,Nhì G,2026-07-03,,,,upcoming
+89,Vòng 1/8,,Thắng 73,Thắng 75,2026-07-04,,,,upcoming
+90,Vòng 1/8,,Thắng 74,Thắng 77,2026-07-04,,,,upcoming
+91,Vòng 1/8,,Thắng 76,Thắng 78,2026-07-05,,,,upcoming
+92,Vòng 1/8,,Thắng 79,Thắng 80,2026-07-05,,,,upcoming
+93,Vòng 1/8,,Thắng 83,Thắng 84,2026-07-06,,,,upcoming
+94,Vòng 1/8,,Thắng 81,Thắng 82,2026-07-06,,,,upcoming
+95,Vòng 1/8,,Thắng 86,Thắng 88,2026-07-07,,,,upcoming
+96,Vòng 1/8,,Thắng 85,Thắng 87,2026-07-07,,,,upcoming
+97,Tứ kết,,Thắng 89,Thắng 90,2026-07-09,,,,upcoming
+98,Tứ kết,,Thắng 93,Thắng 94,2026-07-10,,,,upcoming
+99,Tứ kết,,Thắng 91,Thắng 92,2026-07-11,,,,upcoming
+100,Tứ kết,,Thắng 95,Thắng 96,2026-07-11,,,,upcoming
+101,Bán kết,,Thắng 97,Thắng 98,2026-07-14,,,,upcoming
+102,Bán kết,,Thắng 99,Thắng 100,2026-07-15,,,,upcoming
+103,Tranh hạng ba,,Thua 101,Thua 102,2026-07-18,,,,upcoming
+104,Chung kết,,Thắng 101,Thắng 102,2026-07-19,,,,upcoming
